@@ -70,6 +70,49 @@ cmake ..
 make
 ```
 
+# Docker
+
+1. **Clone the Repository**: If you haven't already, clone the fTetWild repository or your custom implementation, and create a project folder for your Docker setup:
+
+ ```bash
+ git clone https://github.com/wildmeshing/fTetWild.git
+ cd fTetWild
+ ```
+
+2. **Create Docker and Docker Compose Files**: Add the above `Dockerfile` and `docker-compose.yml` to the root of the project folder (where you cloned the fTetWild repository).
+
+3. **Build and Start the Container**: From the root of your project folder, you can now build and start the Docker container using Docker Compose:
+
+ ```bash
+ docker-compose up --build
+ ```
+
+ This will build the Docker image and run the fTetWild application inside a container.
+
+4. **Interactive Usage**: Since the application requires inputs like a surface mesh file, you can mount your local files inside the container using the `data` directory or adjust the `docker-compose.yml` to match your file structure. You can then run commands inside the running container:
+
+ ```bash
+ docker-compose exec ftetwild bash
+ ```
+
+ Inside the container, you can run the tool like this:
+
+ ```bash
+ ./FloatTetwild_bin --input input_mesh.obj --output output_mesh.msh
+ ```
+
+5. **Stop the Container**: To stop and remove the container, you can run:
+
+ ```bash
+ docker-compose down
+ ```
+If you need to map additional directories or pass data into the container, you can customize the `volumes` section of the `docker-compose.yml`. For example, to mount another folder:
+
+```yaml
+volumes:
+  - ./data:/data  # Maps data from the host to the container
+  - ./meshes:/app/meshes  # Maps another folder, for example, containing your input mesh files
+```
 You may need to install `gmp` before compiling the code. You can install it via
 
 - [homebrew](https://brew.sh/) on mac:
