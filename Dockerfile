@@ -1,13 +1,19 @@
 FROM ubuntu
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install any needed packages specified in requirements.txt
-RUN apt-get update && apt-get install -y git cmake g++ libcgal-dev libgmp3-dev
+RUN sudo apt-get update
+RUN sudo apt-get install \
+    libblas-dev \
+    libboost-filesystem-dev \
+    libboost-system-dev \
+    libboost-thread-dev \
+    libglu1-mesa-dev \
+    libsuitesparse-dev \
+    xorg-dev \
+    ccache
 
-# Set the working directory to /app
 WORKDIR /app
 
-# Download and compile TetWild
 RUN git clone https://github.com/wildmeshing/fTetWild.git --recursive
 WORKDIR /app/fTetWild/build
 RUN cmake .. && make
