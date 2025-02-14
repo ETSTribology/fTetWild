@@ -186,3 +186,21 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 	enable_testing()
 	add_subdirectory(tests)
 endif()
+
+# Add an option to enable Python bindings
+option(FLOAT_TETWILD_ENABLE_PYBINDINGS "Enable Python bindings using pybind11" OFF)
+
+if(FLOAT_TETWILD_ENABLE_PYBINDINGS)
+    find_package(pybind11 REQUIRED)
+    message(STATUS "Python bindings are enabled. Building fTetWildPy module...")
+
+    # Add the Python binding source file (see next section for complete code)
+    pybind11_add_module(fTetWildPy src/python_bindings.cpp)
+
+    # Link the Python module with the fTetWild library target.
+    target_link_libraries(fTetWildPy PRIVATE ${PROJECT_NAME})
+
+    # (Optional) You can add any additional include directories or compile definitions here.
+endif()
+
+
